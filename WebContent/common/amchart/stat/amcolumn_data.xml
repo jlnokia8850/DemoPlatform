@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart>
+  <!-- <message bg_color="#BBBB00" text_color="#FFFFFF"><![CDATA[You can broadcast any message to chart from data XML file]]></message> -->
+	<series>
+		<value xid="100">电厂建设</value>
+		<value xid="101">原料开采</value>
+		<value xid="102">原料运输</value>
+		<value xid="103">发电</value>
+		<value xid="104">电厂退役</value>
+		<value xid="105">废弃物运输</value>
+		
+		
+	</series>
+	<graphs>
+		<graph gid="1">
+			<value xid="100" color="#318DBD">0.34022652</value>
+			<value xid="101" color="#318DBD">0.011450291</value>
+			<value xid="102" color="#318DBD">0.281779288</value>
+			<value xid="103" color="#318DBD">0.0017249</value>
+			<value xid="104" color="#318DBD">0.000870</value>
+			<value xid="105" color="#318DBD">0.020264988</value>
+		</graph>
+	</graphs>
+</chart>

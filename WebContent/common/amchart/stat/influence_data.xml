@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart>
+  <!-- <message bg_color="#BBBB00" text_color="#FFFFFF"><![CDATA[You can broadcast any message to chart from data XML file]]></message> -->
+	<series>
+		<value xid="100">煤电</value>
+		<value xid="101">核电</value>
+		<value xid="102">气电</value>
+		<value xid="103">水电</value>
+		<value xid="104">太阳能</value>
+		<value xid="105">风电</value>
+		<value xid="106">油电</value>
+		<value xid="107">SNG</value>
+		
+	</series>
+	<graphs>
+		<graph gid="1">
+			<value xid="100" color="#318DBD">2.47E-04</value>
+			<value xid="101" color="#318DBD">7.43E-06</value>
+			<value xid="102" color="#318DBD">2.19E-06</value>
+			<value xid="103" color="#318DBD">2.99971E-06</value>
+			<value xid="104" color="#318DBD">2.83E-04</value>
+			<value xid="105" color="#318DBD">4.03049E-05</value>
+			<value xid="106" color="#318DBD">2.10E-04</value>
+			<value xid="107" color="#318DBD">2.69E-04</value>
+		</graph>
+	</graphs>
+</chart>
