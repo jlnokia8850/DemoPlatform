@@ -2,6 +2,7 @@ package iie.ershi.hw.platform.model;
 
 public class SendPacketsModel {
 
+	
 	/**
 	 * 重复发送次数
 	 */
