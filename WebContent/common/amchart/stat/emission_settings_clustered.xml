@@ -5,6 +5,8 @@
 <!-- the top left corner has coordinates x = 0, y = 0                                                                -->
 <!-- "!" before x or y position (for example: <x>!20</x>) means that the coordinate will be calculated from the right side or the bottom -->
 <settings> 
+
+
   <type></type>                                               <!-- [column] (column / bar) -->
   <data_type></data_type>                                     <!-- [xml] (xml / csv) -->
   <csv_separator></csv_separator>                             <!-- [;] (string) csv file data separator (you need it only if you are using csv file for your data) -->     
