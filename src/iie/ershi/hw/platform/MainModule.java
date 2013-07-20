@@ -8,6 +8,7 @@ import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.SetupBy;
 import org.nutz.mvc.ioc.provider.ComboIocProvider;
 
+
 @Modules(scanPackage = true)
 @Ok("json")
 @Fail("json")
