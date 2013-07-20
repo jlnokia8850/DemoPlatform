@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
 <!-- Fixed navbar -->
+
 <div class="navbar navbar-fixed-top" id="nav">
 	<div class="navbar-inner">
 		<div class="container">
