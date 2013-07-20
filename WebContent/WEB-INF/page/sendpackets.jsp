@@ -36,13 +36,19 @@
 						<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送次数</b>
 							&nbsp; <input class="span6" type="text" id="charsetSize"
-								placeholder="" name="packet.sendTimes" value="${curSendPacketsModel.sendTimes}" />
+								placeholder="" name="packet.sendTimes"
+								value="${curSendPacketsModel.sendTimes}" />
 						</div>
 						<div class="control-group">
 							<div class="controls">
 								<button type="submit" class="btn btn-primary">保存</button>
 
 							</div>
+						</div>
+						<div class="btn-group">
+							<button class="btn">Left</button>
+							<button class="btn">Middle</button>
+							<button class="btn">Right</button>
 						</div>
 					</form>
 				</div>
