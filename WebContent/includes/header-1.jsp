@@ -8,6 +8,7 @@
  	  	<c:set var="target" value="consumption"></c:set>
  	  </c:if>
  	  
+ 	  
       <div class="navbar navbar-fixed-top" id="nav">
         <div class="navbar-inner">
           <div class="container">
