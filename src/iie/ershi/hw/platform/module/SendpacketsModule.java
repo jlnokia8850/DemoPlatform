@@ -1,5 +1,6 @@
 package iie.ershi.hw.platform.module;
 
+import iie.ershi.hw.platform.common.GlobalConfig;
 import iie.ershi.hw.platform.model.SendPacketsModel;
 
 import java.io.BufferedReader;
@@ -12,6 +13,9 @@ import java.io.InputStreamReader;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -70,6 +74,53 @@ public class SendpacketsModule {
 		// curRegexModel.setRuleFile(GlobalConfig.getContextValue("upload.dir")
 		// + "/regex_Rule.txt");
 		// curRegexModel.setK(k);
+
+	}
+	
+	@At
+	@Ok("raw:xml")
+	public String getAmchartsData() throws IOException {
+
+		String line; // 用来保存第一行读取的内容
+
+		File f = new File(GlobalConfig.getContextValue("upload.dir")
+				+ "/regex_Speed.txt");
+
+		if (!f.exists())
+			line = "0;0;0;0;0;0;";
+		else {
+			InputStream is = new FileInputStream(f);
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(is));
+			line = reader.readLine();
+
+			reader.close();
+		}
+		String speeds[] = line.split(";");
+		System.out.println(speeds.length);
+
+		for (int i = 0; i < speeds.length; i++) {
+			System.out.println(speeds[i]);
+		}
+
+		Document document = DocumentHelper.createDocument();
+		Element chartEle = document.addElement("chart");
+		Element seriesEle = chartEle.addElement("series");
+		Element graphsEle = chartEle.addElement("graphs");
+		Element consumptionGraphEle = graphsEle.addElement("graph")
+				.addAttribute("gid", "2").addAttribute("color", "#9FCD95")
+				.addAttribute("gradient_fill_colors", "#99CCFF, #000FFF");
+
+		for (int i = 0; i < speeds.length; i++) {
+			int k = i + 1;
+			seriesEle.addElement("value").addAttribute("xid", "" + i)
+					.addText("" + k);
+
+			consumptionGraphEle.addElement("value").addAttribute("xid", "" + i)
+					.addAttribute("color", "#318DBD").addText(speeds[i]);
+		}
+
+		return document.asXML();
 
 	}
 
