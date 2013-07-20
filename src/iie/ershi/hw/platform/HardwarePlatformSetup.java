@@ -1,6 +1,5 @@
 package iie.ershi.hw.platform;
 
-
 import iie.ershi.hw.platform.common.GlobalConfig;
 
 import java.io.File;
