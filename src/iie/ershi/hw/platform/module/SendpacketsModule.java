@@ -31,16 +31,22 @@ public class SendpacketsModule {
 	@Ok("jsp:page.sendpackets")
 	// @Ok("redirect:/regex/config?init=true&scanover=false")
 	public void init(Ioc ioc, HttpServletRequest request) {
-		// curSendPacketsModel.setSendTimes("1");
+		curSendPacketsModel.setSendTimes("1");
+		curSendPacketsModel.setSrcMac("aaa");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 
 	@At
-	// @Ok("jsp:page.sendpackets")
-	@Ok("redirect:/platform/init")
+	@Ok("jsp:page.sendpackets")
+	//@Ok("redirect:/platform/init")
 	public void savePacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {
 		curSendPacketsModel.setSendTimes(sendPacketsModel.getSendTimes());
+		curSendPacketsModel.setSrcMac(sendPacketsModel.getSrcMac());
+
+		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+		
+		
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		// curSendPacketsModel.setCharsetSize("256");

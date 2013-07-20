@@ -16,7 +16,7 @@
 					<a href="#"><b>关于我们</b></a>
 				</p>
 				<ul class="nav">
-					<li class="active"><a href="#"><b>发包演示</b></a></li>
+					<li class="active"><a href="${base}/platform/init"><b>发包演示</b></a></li>
 					<li><a href="#"><b>收包演示</b></a></li>
 					<li><a href="#"><b>阻断演示</b></a></li>
 					<li><a href="#"><b>分流演示</b></a></li>

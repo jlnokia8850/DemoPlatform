@@ -35,9 +35,15 @@
 						class="form-horizontal" method="post">
 						<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送次数</b>
-							&nbsp; <input class="span6" type="text" id="charsetSize"
+							&nbsp; <input class="span6" type="text" id="inputid_sendTimes"
 								placeholder="" name="packet.sendTimes"
 								value="${curSendPacketsModel.sendTimes}" />
+						</div>
+						<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源Mac</b>
+							&nbsp; <input class="span6" type="text" id="inputid_srcMac"
+								placeholder="" name="packet.srcMac"
+								value="${curSendPacketsModel.srcMac}" />
 						</div>
 						<div class="control-group">
 							<div class="controls">
@@ -100,6 +106,7 @@
 		$(document).ready(function() {
 
 			ChartHandler.init();
+			//document.getElementById("charsetSize").valueOf();
 
 			//<c:if test="{$param.showDetail == 'true'}">
 			//if()
@@ -124,6 +131,7 @@
 	</script>
 	<script type="text/javascript">
 		var ChartHandler = {
+
 			swfPath : "${base}/amchart/amcolumn_1.6.0.1/amcolumn/amcolumn.swf",
 			setting_file : "${base}/common/amchart/stat/consumption_settings.xml",
 			data_file : "${base}/common/amchart/stat/amcolumn_data.xml",

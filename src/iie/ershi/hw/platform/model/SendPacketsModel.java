@@ -6,6 +6,8 @@ public class SendPacketsModel {
 	 * 重复发送次数
 	 */
 	private String sendTimes;
+	
+	private String srcMac;
 
 //	/**
 //	 * 源Mac地址
@@ -31,6 +33,14 @@ public class SendPacketsModel {
 //	 * 协议号
 //	 */
 //	private String ipPro;
+
+	public String getSrcMac() {
+		return srcMac;
+	}
+
+	public void setSrcMac(String srcMac) {
+		this.srcMac = srcMac;
+	}
 
 	public String getSendTimes() {
 		return sendTimes;

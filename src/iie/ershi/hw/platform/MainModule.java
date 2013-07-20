@@ -19,10 +19,10 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @SetupBy(value = HardwarePlatformSetup.class)
 public class MainModule {
 
-	@At("/platform")
-	@Ok("jsp:page.hello")
-	public String doHello() {
-		return "Hello Nutz";
-	}
+//	@At("/platform")
+//	@Ok("jsp:page.hello")
+//	public String doHello() {
+//		return "Hello Nutz";
+//	}
 
 }
