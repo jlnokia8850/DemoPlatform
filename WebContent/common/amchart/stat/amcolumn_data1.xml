@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chart>
+	<series>
+		<value xid="0">Xbox 360</value>
+		<value xid="1">PlayStation 3</value>
+		<value xid="2">Wii</value>
+	</series>
+	<graphs>
+		<graph gid="0" color="#9FCD95" gradient_fill_colors="#FFFFFF, #9FCD95">
+			<value xid="0">399</value>
+			<value xid="1">599</value>			
+			<value xid="2">249</value>
+		</graph>
+	</graphs>
+	
+  <labels>         
+    <label lid="0">
+      <x>40</x>                   
+      <y>330</y>                  
+      <rotate></rotate>          
+      <width></width>            
+      <align>center</align>        
+      <text_color></text_color>  
+      <text_size></text_size>    
+      <text>                     
+        <![CDATA[<b>接收数据包数量</b>]]>
+      </text>        
+    </label>
+  </labels>	
+</chart>

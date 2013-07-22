@@ -26,7 +26,6 @@
 			<div class="span6">
 				<p class="muted">&nbsp;</p>
 				<p class="muted">&nbsp;</p>
-				<p class="muted">&nbsp;</p>
 				<div id="amcharts_num_rec" style="text-align: center">You need
 					to upgrade your Flash Player</div>
 			</div>
@@ -75,8 +74,9 @@
 		var ChartHandler = {
 
 			swfPath : "${base}/amchart/amcolumn_1.6.0.1/amcolumn/amcolumn.swf",
-			setting_file : "${base}/common/amchart/stat/consumption_settings.xml",
-			data_file : "${base}/common/amchart/stat/amcolumn_data.xml",
+			setting_file : "${base}/common/amchart/stat/amcolumn_settings.xml",
+			data_file_rec : "${base}/common/amchart/stat/amcolumn_data1.xml",
+			data_file_drop : "${base}/common/amchart/stat/amcolumn_data2.xml",
 			so : null,
 			rec : function() {
 				//alert('aaaa');
@@ -84,10 +84,10 @@
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 
-				this.setting_file = "${base}/common/amchart/stat/consumption_settings.xml";
+				this.setting_file = "${base}/common/amchart/stat/amcolumn_settings.xml";
 				//data_file = this.getRegexResultDataFile();
 
-				this.data_file = "${base}/common/amchart/stat/amcolumn_data.xml";
+				this.data_file = "${base}/common/amchart/stat/amcolumn_data1.xml";
 
 				this.so.addVariable("settings_file",
 						encodeURIComponent(this.setting_file));
@@ -106,10 +106,10 @@
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 
-				this.setting_file = "${base}/common/amchart/stat/consumption_settings.xml";
+				this.setting_file = "${base}/common/amchart/stat/amcolumn_settings.xml";
 				//data_file = this.getRegexResultDataFile();
 
-				this.data_file = "${base}/common/amchart/stat/amcolumn_data.xml";
+				this.data_file = "${base}/common/amchart/stat/amcolumn_data2.xml";
 
 				this.so.addVariable("settings_file",
 						encodeURIComponent(this.setting_file));
