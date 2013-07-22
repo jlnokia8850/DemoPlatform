@@ -166,13 +166,13 @@
      function save(){
     	 var select=document.getElementById("select1");
     	// alert(select.nodeType);
-    	 var varItem = new Option("sdfsdfsfs", "xxx");    //value and text
+    	// var varItem = new Option("sdfsdfsfs", "xxx");    //value and text
     	 
-    	 varItem.name="lxx";
-    	 alert(select.length);
+    	// varItem.name="lxx";
+    	// alert(select.length);
     	// select.options[select.length]=varItem;
-    	select.options.add(varItem, null);
-    	 alert(select.length);
+    	//select.options.add(varItem, null);
+    	// alert(select.length);
     	//
     	alert(varItem.text+" ... "+varItem.nodeValue);
     	alert("保存完毕");
