@@ -2,23 +2,35 @@
 <chart>
   <!-- <message bg_color="#BBBB00" text_color="#FFFFFF"><![CDATA[You can broadcast any message to chart from data XML file]]></message> -->
 	<series>
-		<value xid="100">电厂建设</value>
-		<value xid="101">原料开采</value>
-		<value xid="102">原料运输</value>
-		<value xid="103">发电</value>
-		<value xid="104">电厂退役</value>
-		<value xid="105">废弃物运输</value>
+		<value xid="100">此刻</value>
+		<value xid="101">前5s</value>
+		<value xid="102">前10s</value>
+		<value xid="103">前15s</value>
+		<value xid="104">前20s</value>
+		<value xid="105">前25s</value>
+		<value xid="106">前30s</value>
+		<value xid="107">前35s</value>
+		<value xid="108">前40s</value>
+		<value xid="109">前45s</value>
+		<value xid="110">前50s</value>
+		<value xid="111">前55s</value>
 		
 		
 	</series>
 	<graphs>
 		<graph gid="1">
-			<value xid="100" color="#318DBD">0.34022652</value>
-			<value xid="101" color="#318DBD">0.011450291</value>
-			<value xid="102" color="#318DBD">0.281779288</value>
-			<value xid="103" color="#318DBD">0.0017249</value>
-			<value xid="104" color="#318DBD">0.000870</value>
-			<value xid="105" color="#318DBD">0.020264988</value>
+			<value xid="100" color="#318DBD">1</value>
+			<value xid="101" color="#318DBD">5</value>
+			<value xid="102" color="#318DBD">10</value>
+			<value xid="103" color="#318DBD">77</value>
+			<value xid="104" color="#318DBD">100</value>
+			<value xid="105" color="#318DBD">777</value>
+			<value xid="106" color="#318DBD">1000</value>
+			<value xid="107" color="#318DBD">1697</value>
+			<value xid="108" color="#318DBD">342</value>
+			<value xid="109" color="#318DBD">223</value>
+			<value xid="110" color="#318DBD">532</value>
+			<value xid="111" color="#318DBD">234</value>
 		</graph>
 	</graphs>
 </chart>

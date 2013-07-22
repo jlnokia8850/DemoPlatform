@@ -39,6 +39,13 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcMac("aaa");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
+	
+	@At
+	@Ok("jsp:page.recpackets")
+	public void recpackets(){
+		
+	}
+	
 
 	@At
 	@Ok("jsp:page.sendpackets")
@@ -157,3 +164,4 @@ public class SendpacketsModule {
 	}
 
 }
+

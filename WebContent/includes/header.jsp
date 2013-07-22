@@ -16,12 +16,14 @@
 				<p class="navbar-text pull-right">
 					<a href="#"><b>关于我们</b></a>
 				</p>
-				<ul class="nav">
-					<li class="active"><a href="${base}/platform/init"><b>发包演示</b></a></li>
-					<li><a href="#"><b>收包演示</b></a></li>
-					<li><a href="#"><b>阻断演示</b></a></li>
-					<li><a href="#"><b>分流演示</b></a></li>
-				</ul>
+				<div class=tabbable>
+					<ul class="nav">
+						<li class="active"><a href="${base}/platform/init"><b>发包演示</b></a></li>
+						<li><a href="${base}/platform/recpackets"><b>收包演示</b></a></li>
+						<li><a href="#"><b>阻断演示</b></a></li>
+						<li><a href="#"><b>分流演示</b></a></li>
+					</ul>
+				</div>
 			</div>
 			<!--/.nav-collapse -->
 		</div>
