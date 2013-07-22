@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=utf-8" language="java"%>
 <%@ include file="/includes/taglibs.jsp"%>
+ 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,6 +8,8 @@
 <link rel="Shortcut Icon" href="${base}/favicon.ico" />
 <title>流量清洗演示系统</title>
 <link type="text/css" rel="stylesheet" href="${base}/css/bootstrap.css" />
+<link type="text/css" rel="stylesheet" href="${base}/css/bootstrap-select.css" />
+<link type="text/css" rel="stylesheet" href="${base}/css/bootstrap-select.min.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/index.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/stat.css" />
 <style type="text/css">
@@ -20,7 +23,9 @@
 		<c:param name="currentNav">sendpackets</c:param>
 	</c:import>
 
-
+<form id="form3" name="form3" action="${base}/platform/sendPacket"
+						class="form-horizontal" method="post">
+						</form>
 
 	<div id="wrap" class="container">
 		<div class="row-fluid">
@@ -34,6 +39,12 @@
 					<form id="form1" name="form1" action="${base}/platform/savePacket"
 						class="form-horizontal" method="post">
 						<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据包名</b>
+							&nbsp; <input class="span6" type="text" id="inputid_name"
+								placeholder="" name="packet.name"
+								value="${curSendPacketsModel.name}" />
+						</div>
+						<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送次数</b>
 							&nbsp; <input class="span6" type="text" id="inputid_sendTimes"
 								placeholder="" name="packet.sendTimes"
@@ -45,53 +56,94 @@
 								placeholder="" name="packet.srcMac"
 								value="${curSendPacketsModel.srcMac}" />
 						</div>
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目的Mac</b>
+							&nbsp; <input class="span6" type="text" id="inputid_dstMac"
+								placeholder="" name="packet.dstMac"
+								value="${curSendPacketsModel.dstMac}" />
+						</div>
+						
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源IP</b>
+							&nbsp; <input class="span6" type="text" id="inputid_srcIP"
+								placeholder="" name="packet.srcIP"
+								value="${curSendPacketsModel.srcIP}" />
+						</div>
+						
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目 的IP</b>
+							&nbsp; <input class="span6" type="text" id="inputid_dstIP"
+								placeholder="" name="packet.dstIP"
+								value="${curSendPacketsModel.dstIP}" />
+						</div>
+						
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;协议号</b>
+							&nbsp; <input class="span6" type="text" id="inputid_ipPro"
+								placeholder="" name="packet.ipPro"
+								value="${curSendPacketsModel.ipPro}" />
+						</div>
+						
 						<div class="control-group">
-							<div class="controls">
-								<button type="submit" class="btn btn-primary">保存</button>
-
-							</div>
+						
+						 <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+								<button type="submit" class="btn btn-primary" onclick="save()">保存</button>
+								<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+								<button type="button" class="btn btn-primary" onclick="send()">发送</button> 
 						</div>
-						<div class="btn-group">
-							<button class="btn">Left</button>
-							<button class="btn">Middle</button>
-							<button class="btn">Right</button>
-						</div>
+						
+						
 					</form>
 				</div>
 				<!--/.well -->
 			</div>
 			<!--/span-->
+			
+		
 			<div class="span8">
+			
 				<p class="muted">&nbsp;</p>
 				<p class="lead text-info">
-					<b>匹配速度</b>
+					<b>快速选择</b>
 				</p>
-				<div id="amcharts_regex" style="text-align: center">You need
-					to upgrade your Flash Player</div>
-				<!--/row-->
-
-				<!--/row-->
+			<form id="form2" name="form2" action="">
+			    
+				<select id="select1" name="select1" class="selectpicker" >
+				<option value="QQ">QQ</option>  
+				<option value="163">163</option>  
+				<option value="UDP">UDP</option>  
+				<option value="TCP">TCP</option>  
+				<option value="Tcet">Tcent</option>
+				<option value="Micro">Micro</option>
+				</select>
+			
+			</form>
+				
+				<!-- form id="form2" name="form2" action=""
+			    class="form-horizontal" method="post">
+				<p>
+		
+				<select multiple="multiple">  
+				<option>QQ</option>  
+				<option>163</option>  
+				<option>UDP</option>  
+				<option>TCP</option>  
+				<option>Tcent</option>
+				</select>
+				</p>
+				<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+				<button type="submit" class="btn btn-primary" >确定</button>
+				
+				</form-->
 			</div>
 			<!--/span=8-->
 		</div>
 		<!--/row-->
 		<div style="height: 20px"></div>
-
-		<div class="span12">
-			<p>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="#" role="button" class="btn btn-large btn-primary"
-					data-toggle="modal" onclick="submitForm1();">&nbsp;&nbsp;&nbsp;&nbsp;配置&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-			</p>
-		</div>
-
 
 
 		<hr>
@@ -101,11 +153,43 @@
 	<%@ include file="/includes/footer.jsp"%>
 	<script type="text/javascript" src="${base}/js/jquery.js"></script>
 	<script type="text/javascript" src="${base}/js/bootstrap.js"></script>
+	<script type="text/javascript" src="${base}/js/bootstrap-select.js"></script>
 	<script type="text/javascript" src="${base}/amchart/swfobject.js"></script>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.selectpicker').selectpicker({
+
+		});
+	});
+
+     function save(){
+    	 var select=document.getElementById("select1");
+    	// alert(select.nodeType);
+    	 var varItem = new Option("sdfsdfsfs", "xxx");    //value and text
+    	 
+    	 varItem.name="lxx";
+    	 alert(select.length);
+    	// select.options[select.length]=varItem;
+    	select.options.add(varItem, null);
+    	 alert(select.length);
+    	//
+    	alert(varItem.text+" ... "+varItem.nodeValue);
+    	alert("保存完毕");
+    	
+      }
+     function send(){
+    	 document.form3.submit();
+         alert("发送完毕");
+      }
+     </script>
+
+
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 
-			ChartHandler.init();
+			//ChartHandler.init();
 			//document.getElementById("charsetSize").valueOf();
 
 			//<c:if test="{$param.showDetail == 'true'}">
@@ -126,9 +210,15 @@
 			//	alert("请上传规则文件!");
 			//	return;
 			//}
+			 
 			document.form1.submit();
 		};
+		function submitForm2() {
+			document.form2.submit();
+		};
 	</script>
+	 
+	 <!--  
 	<script type="text/javascript">
 		var ChartHandler = {
 
@@ -168,9 +258,8 @@
 				//this.so.addVariable("data_file", encodeURIComponent(data_file));
 				//this.so.write("amcharts_regex");
 			}
-
 		};
-	</script>
+	</script>-->
 
 </body>
 </html>
