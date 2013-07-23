@@ -36,17 +36,17 @@
 				</p>
 				<div class="well ">
 
-					<form id="form1" name="form1" action="${base}/platform/savePacket"
+					<form id="form1" name="form1"  action="${base}/platform/savePacket"
 						class="form-horizontal" method="post">
 						
 						<div class="control-group">
-							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据包名</b>
+							<b>数据包名</b>
 							&nbsp; <input class="span6" type="text" id="inputid_name"
 								placeholder="" name="packet.name"
 								value="${curSendPacketsModel.name}" />
-						 </div>
-						<div class="control-group"> 
-							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送次数</b>
+						<!--   </div>
+						<div class="control-group"> -->
+							<b>发送次数</b>
 							&nbsp; <input class="span6" type="text" id="inputid_sendTimes"
 								placeholder="" name="packet.sendTimes"
 								value="${curSendPacketsModel.sendTimes}" />
@@ -99,9 +99,10 @@
 						</div>
 				    	<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容</b>
-							&nbsp; <input class="span6" type="text" id="inputid_content" size="100,100"
+							&nbsp; <!-- input class="span6" type="text" id="inputid_content" style="word-break: break-all;padding-top:15px;width:180px;height:100px;"
 								name="packet.content"
-								value="${curSendPacketsModel.content}" />
+								value="${curSendPacketsModel.content}" /-->
+							<textarea name="content" cols="40" rows="4" value="${curSendPacketsModel.content}"></textarea>
 						</div>
 						<div class="control-group">
 						
