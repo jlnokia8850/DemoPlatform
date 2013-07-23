@@ -9,6 +9,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +26,11 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
+
+import java.io.FileWriter;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 @IocBean()
 @InjectName
@@ -39,25 +48,23 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcMac("aaa");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
-	
+
 	@At
 	@Ok("jsp:page.recpackets")
-	public void recpackets(){
-		
+	public void recpackets() {
+
 	}
-	
 
 	@At
 	@Ok("jsp:page.sendpackets")
-	//@Ok("redirect:/platform/init")
+	// @Ok("redirect:/platform/init")
 	public void savePacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {
 		curSendPacketsModel.setSendTimes(sendPacketsModel.getSendTimes());
 		curSendPacketsModel.setSrcMac(sendPacketsModel.getSrcMac());
 
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
-		
-		
+
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		// curSendPacketsModel.setCharsetSize("256");
@@ -83,7 +90,7 @@ public class SendpacketsModule {
 		// curRegexModel.setK(k);
 
 	}
-	
+
 	@At
 	@Ok("raw:xml")
 	public String getAmchartsData() throws IOException {
@@ -131,37 +138,58 @@ public class SendpacketsModule {
 
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws DocumentException,
+			IOException {
+		File file = new File("d:/regex_Speed.txt");
+		List list = new ArrayList();
+		int[] nums = { 0 };
 
-		System.out.println("test");
+		File configFile = new File("d:/amcolumn_data1.xml");
+		SAXReader reader = new SAXReader();
+		Document doc = null;
+		doc = reader.read(configFile);
 
-		String line; // 用来保存第一行读取的内容
-
-		File f = new File("D:/regex_Speed.txt");
-
-		if (!f.exists())
-			line = "";
-
-		InputStream is = new FileInputStream(f);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-
-		line = reader.readLine();
-
-		reader.close();
-
-		System.out.println(line);
-
-		String a[] = line.split(";");
-
-		System.out.println(a.length);
-
-		for (int i = 0; i < a.length; i++) {
-			System.out.println(a[i]);
+		try {
+			BufferedReader bw = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = bw.readLine()) != null) {
+				list.add(line);
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		return;
+		// for (Iterator i = list.iterator(); i.hasNext();) {
+		// String str = (String) i.next();
+		// System.out.println(str);
+		// }
 
+		nums = new int[12];
+		for (int i = 0; i < list.size(); i++) {
+			String s = (String) list.get(i);
+			nums[i] = Integer.parseInt(s);
+		}
+
+		for (int i = 0; i < 12; i++) {
+			System.out.println(nums[i]);
+		}
+
+		Element root = doc.getRootElement();
+		Element graphs = root.element("graphs");
+		Element graph = graphs.element("graph");
+		Element val = graph.element("value");
+		graph.clearContent();
+		for (int i = 0; i < 12; i++) {
+			graph.addElement("value").addAttribute("xid", "" + i)
+					.addText("" + nums[i]);
+		}
+		// System.out.println(val.getTextTrim());
+		// val.setText("11");
+		XMLWriter out = new XMLWriter(new FileWriter("d:/amcolumn_data1.xml"));
+		out.write(doc);
+		out.close();
+		return;
 	}
 
 }
-
