@@ -8,13 +8,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,6 +37,10 @@ public class SendpacketsModule {
 
 	private SendPacketsModel curSendPacketsModel = new SendPacketsModel();
 	
+	private List<String> curFileList=new ArrayList<String>();
+	
+	private int defaulted;
+	 
 	@At
 	@Ok("jsp:page.sendpackets")
 	// @Ok("redirect:/regex/config?init=true&scanover=false")
@@ -45,6 +49,12 @@ public class SendpacketsModule {
 		//curSendPacketsModel.setSrcMac("FF-FF-FF-FF-FF");
 		//curSendPacketsModel.setDstMac("FF-FF-FF-FF-FF");
 		//curSendPacketsModel.setSrcIP("172.0.0.1");
+		
+		defaulted=0;
+		
+		initList();
+		
+		request.setAttribute("curFileList", curFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 
@@ -53,19 +63,26 @@ public class SendpacketsModule {
 	//@Ok("redirect:/platform/init")
 	public void savePacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {
+		
 		curSendPacketsModel.setName(sendPacketsModel.getName());
-		if(sendPacketsModel.getName()==null)curSendPacketsModel.setName(" ");
+	
+		if(sendPacketsModel.getName()=="")curSendPacketsModel.setName("packet"+ (++defaulted));
 		curSendPacketsModel.setSendTimes(sendPacketsModel.getSendTimes());
 		curSendPacketsModel.setSrcMac(sendPacketsModel.getSrcMac());
 		curSendPacketsModel.setDstMac(sendPacketsModel.getDstMac());
 		curSendPacketsModel.setSrcIP(sendPacketsModel.getSrcIP());
 		curSendPacketsModel.setDstIP(sendPacketsModel.getDstIP());
 		curSendPacketsModel.setIpPro(sendPacketsModel.getIpPro());
+		curSendPacketsModel.setSrcPort(sendPacketsModel.getSrcPort());
+		curSendPacketsModel.setDstPort(sendPacketsModel.getDstPort());
+		curSendPacketsModel.setContent(sendPacketsModel.getContent());
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		
 		
-		String file_name=curSendPacketsModel.getName()+".lxx";
+		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+curSendPacketsModel.getName()+".conf";
+		System.out.println(file_name);
 		savetoFile(file_name, curSendPacketsModel);
+		//initList();
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		// curSendPacketsModel.setCharsetSize("256");
@@ -89,21 +106,53 @@ public class SendpacketsModule {
 		// curRegexModel.setK(k);
 
 	}
+	@At
+	@Ok("jsp:page.sendpackets")
+	public void loadpacket(Ioc ioc, HttpServletRequest request,
+			@Param("filename") String petName){//函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
 	
-
+		System.out.print(petName);
+		
+		curSendPacketsModel.setName(petName);
+		
+		//结下来是读文件操作
+		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+petName+".conf";
+		File file=null;
+		BufferedReader br=null;
+		String strXmlLine = "";
+		try{
+			file = new File(file_name);//文件路径
+			br = new BufferedReader(new FileReader(file));
+			int indx=0;
+			 while ((strXmlLine = br.readLine()) != null) {
+				 System.out.println(strXmlLine);
+				 String element=null;
+				 int bngIndex = strXmlLine.lastIndexOf("="); // 得到最后一个=号
+				 if(bngIndex<0||bngIndex>=strXmlLine.length())bngIndex=strXmlLine.length();
+				 element=strXmlLine.substring(bngIndex+1, strXmlLine.length());
+				 SetElementVale(element,indx);
+				 indx++;
+			 }
+			
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+	}
 	
 	@At
 	@Ok("jsp:page.sendpackets")
 	//@Ok("redirect:/platform/init")
 	public void sendPacket(Ioc ioc, HttpServletRequest request,
-			@Param("::packet.") SendPacketsModel sendPacketsModel) {
-		curSendPacketsModel.setSendTimes("ok");
-		curSendPacketsModel.setSrcMac("ok");
-		curSendPacketsModel.setDstMac("ok");
-		curSendPacketsModel.setSrcIP("ok");
-		curSendPacketsModel.setDstIP("ok");
-		curSendPacketsModel.setIpPro("ok");
-		curSendPacketsModel.setName("ok");
+			@Param("::packet.") SendPacketsModel sendPacketsModel) {//发送数据包，此函数应该什么都不要做
+		//curSendPacketsModel.setSendTimes("ok");
+		//curSendPacketsModel.setSrcMac("ok");
+		//curSendPacketsModel.setDstMac("ok");
+		//curSendPacketsModel.setSrcIP("ok");
+		//curSendPacketsModel.setDstIP("ok");
+		//curSendPacketsModel.setIpPro("ok");
+		//curSendPacketsModel.setName("ok");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//add your code about send packets here...
 	}
@@ -153,7 +202,7 @@ public class SendpacketsModule {
 		return document.asXML();
 	}
 
-	public void savetoFile(String file_name, SendPacketsModel send_bean)
+	public void savetoFile(String file_name, SendPacketsModel send_bean)//把数据包保存到文件
 	{
 		 try {
 	            //打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
@@ -164,8 +213,8 @@ public class SendpacketsModule {
 	        		   file.createNewFile();//创建文件 
 	        		   file.mkdir();//创建目录
 	        		   System.out.print("OKOKOKOKKOKOKKOKOKOKOKOKKO!");
-	        		   file.delete();//调用完马上就删除了
-	        		   file.deleteOnExit();//程序退出时，可以作为临时文件。
+	        		  // file.delete();//调用完马上就删除了
+	        		  // file.deleteOnExit();//程序退出时，可以作为临时文件。
 	        		   } catch (IOException e) {                
 	        			   e.printStackTrace();             
 	        			   }         
@@ -173,17 +222,51 @@ public class SendpacketsModule {
 	           BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
 	           
 	           
-	           /*这里需要添加文件的保存。。。另外文件保存路径在了eclipse工作环境下*/
 	            writer.write("SEND_TIMES="+send_bean.getSendTimes()+"\n");
 	            writer.write("SRC_MAC="+send_bean.getSrcMac()+"\n");
+	            writer.write("DST_MAC="+send_bean.getDstMac()+"\n");
 	            writer.write("SRC_IP="+send_bean.getSrcIP()+"\n");
 	            writer.write("DST_IP="+send_bean.getDstIP()+"\n");
-	          
+	            writer.write("IP_PRO="+send_bean.getIpPro()+"\n");
+	            writer.write("SRC_PORT="+send_bean.getSrcPort()+"\n");
+	            writer.write("DST_PORT="+send_bean.getDstPort()+"\n");
+	            writer.write("DATA_CONTENT="+send_bean.getContent()+"\n");
+	            
 	            writer.close();
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
 
+	}
+	public void initList()
+	{
+		String file_name= GlobalConfig.getContextValue("conf.dir")+"/";
+		File f = new File(file_name);
+		File[] t = f.listFiles();
+		
+		curFileList.clear();//先进行清空操作
+		curFileList.add(" ");
+		for (int i = 0; i < t.length; i++) 
+		   { 
+			   int endIndex = t[i].getName().lastIndexOf("."); // 最后一个.(即后缀名前面的.)的索引
+			   if(endIndex<0 || endIndex>t[i].getName().length()) endIndex=t[i].getName().length();
+			   String tempsuffix = t[i].getName().substring(0, endIndex);
+			   //System.out.println(tempsuffix);
+			   curFileList.add(tempsuffix);
+		   }
+	}
+	public void SetElementVale(String value, int indx)
+	{
+		if(indx==0)curSendPacketsModel.setSendTimes(value);
+		if(indx==1)curSendPacketsModel.setSrcMac(value);
+		if(indx==2)curSendPacketsModel.setDstMac(value);
+		if(indx==3)curSendPacketsModel.setSrcIP(value);
+		if(indx==4)curSendPacketsModel.setDstIP(value);
+		if(indx==5)curSendPacketsModel.setIpPro(value);
+		if(indx==6)curSendPacketsModel.setSrcPort(value);
+		if(indx==7)curSendPacketsModel.setDstPort(value);
+		if(indx==8)curSendPacketsModel.setContent(value);
+		//.....
 	}
 
 	public static void main(String[] args) throws IOException {

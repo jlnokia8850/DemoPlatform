@@ -38,18 +38,20 @@
 
 					<form id="form1" name="form1" action="${base}/platform/savePacket"
 						class="form-horizontal" method="post">
+						
 						<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据包名</b>
 							&nbsp; <input class="span6" type="text" id="inputid_name"
 								placeholder="" name="packet.name"
 								value="${curSendPacketsModel.name}" />
-						</div>
-						<div class="control-group">
+						 </div>
+						<div class="control-group"> 
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送次数</b>
 							&nbsp; <input class="span6" type="text" id="inputid_sendTimes"
 								placeholder="" name="packet.sendTimes"
 								value="${curSendPacketsModel.sendTimes}" />
 						</div>
+						
 						<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源Mac</b>
 							&nbsp; <input class="span6" type="text" id="inputid_srcMac"
@@ -62,7 +64,7 @@
 								placeholder="" name="packet.dstMac"
 								value="${curSendPacketsModel.dstMac}" />
 						</div>
-						
+					
 				    	<div class="control-group">
 							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源IP</b>
 							&nbsp; <input class="span6" type="text" id="inputid_srcIP"
@@ -83,11 +85,28 @@
 								placeholder="" name="packet.ipPro"
 								value="${curSendPacketsModel.ipPro}" />
 						</div>
-						
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;源端口</b>
+							&nbsp; <input class="span6" type="text" id="inputid_srcPort"
+								placeholder="" name="packet.srcPort"
+								value="${curSendPacketsModel.srcPort}" />
+						</div>
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目的端口</b>
+							&nbsp; <input class="span6" type="text" id="inputid_dstPort"
+								placeholder="" name="packet.dstPort"
+								value="${curSendPacketsModel.dstPort}" />
+						</div>
+				    	<div class="control-group">
+							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容</b>
+							&nbsp; <input class="span6" type="text" id="inputid_content" size="100,100"
+								name="packet.content"
+								value="${curSendPacketsModel.content}" />
+						</div>
 						<div class="control-group">
 						
 						 <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
-								<button type="submit" class="btn btn-primary" onclick="save()">保存</button>
+								<button type="button" class="btn btn-primary" onclick="save()">保存</button>
 								<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
 								<button type="button" class="btn btn-primary" onclick="send()">发送</button> 
@@ -109,13 +128,11 @@
 				</p>
 			<form id="form2" name="form2" action="">
 			    
-				<select id="select1" name="select1" class="selectpicker" >
-				<option value="QQ">QQ</option>  
-				<option value="163">163</option>  
-				<option value="UDP">UDP</option>  
-				<option value="TCP">TCP</option>  
-				<option value="Tcet">Tcent</option>
-				<option value="Micro">Micro</option>
+				<select id="select1" name="select1" class="selectpicker" onchange="selectOption(this[selectedIndex].innerHTML)">
+				<c:forEach items="${curFileList}" var="file">
+		    		<option value="${file}">${file}</option>
+ 				</c:forEach>
+				<!-- -->
 				</select>
 			
 			</form>
@@ -164,23 +181,19 @@
 	});
 
      function save(){
-    	 var select=document.getElementById("select1");
-    	// alert(select.nodeType);
-    	// var varItem = new Option("sdfsdfsfs", "xxx");    //value and text
-    	 
-    	// varItem.name="lxx";
-    	// alert(select.length);
-    	// select.options[select.length]=varItem;
-    	//select.options.add(varItem, null);
-    	// alert(select.length);
-    	//
-    	alert(varItem.text+" ... "+varItem.nodeValue);
+    	 document.form1.submit();
     	alert("保存完毕");
-    	
+    	document.form2.submit();
       }
      function send(){
     	 document.form3.submit();
          alert("发送完毕");
+     	document.form2.submit();
+      }
+     function selectOption(name){
+    	
+    	 window.location='${base}/platform/loadpacket?filename='+name;
+    	 document.form2.submit();
       }
      </script>
 

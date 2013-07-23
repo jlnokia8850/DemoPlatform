@@ -27,5 +27,7 @@ public class HardwarePlatformSetup implements Setup{
 		GlobalConfig.addContextValue("webinf.dir", webdir + "/WEB-INF");
 		GlobalConfig.addContextValue("upload.dir", webdir
 				+ "/WEB-INF/uploadTmp");
+		GlobalConfig.addContextValue("conf.dir", webdir
+				+ "/conf");
 	}
 }
