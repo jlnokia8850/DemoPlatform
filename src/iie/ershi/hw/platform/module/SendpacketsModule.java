@@ -38,7 +38,7 @@ public class SendpacketsModule {
 	private SendPacketsModel curSendPacketsModel = new SendPacketsModel();
 	
 	private List<String> curFileList=new ArrayList<String>();
-	
+	private List<String> delFileList=new ArrayList<String>();
 	private int defaulted;
 	 
 	@At
@@ -55,6 +55,7 @@ public class SendpacketsModule {
 		initList();
 		
 		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 
@@ -76,12 +77,20 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcPort(sendPacketsModel.getSrcPort());
 		curSendPacketsModel.setDstPort(sendPacketsModel.getDstPort());
 		curSendPacketsModel.setContent(sendPacketsModel.getContent());
-		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+		
+
 		
 		
 		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+curSendPacketsModel.getName()+".conf";
 		System.out.println(file_name);
 		savetoFile(file_name, curSendPacketsModel);
+		
+		curFileList.add(curSendPacketsModel.getName());
+		delFileList.add(curSendPacketsModel.getName());
+		
+		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
+		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//initList();
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
@@ -138,9 +147,44 @@ public class SendpacketsModule {
             e.printStackTrace();
         }
 		
+		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
+	@At
+	@Ok("jsp:page.sendpackets")
+	public void deltpacket(Ioc ioc, HttpServletRequest request,
+			@Param("filename") String petName){//函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
 	
+		System.out.print(petName);
+		
+		//结下来是删除文件操作
+		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+petName+".conf";
+		File file=null;
+
+		
+		file = new File(file_name);//文件路径
+		if (file.isFile() && file.exists()) {   
+			System.gc();//启动jvm垃圾回收
+			file.delete();
+		}
+		curSendPacketsModel.setName("");
+		curSendPacketsModel.setSendTimes("");
+		curSendPacketsModel.setSrcMac("");
+		curSendPacketsModel.setDstMac("");
+		curSendPacketsModel.setSrcIP("");
+		curSendPacketsModel.setDstIP("");
+		curSendPacketsModel.setIpPro("");
+		curSendPacketsModel.setSrcPort("");
+		curSendPacketsModel.setDstPort("");
+		curSendPacketsModel.setContent("");
+		
+		curFileList.remove(petName);
+		delFileList.remove(petName);
+		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
+		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+	}
 	@At
 	@Ok("jsp:page.sendpackets")
 	//@Ok("redirect:/platform/init")
@@ -153,6 +197,31 @@ public class SendpacketsModule {
 		//curSendPacketsModel.setDstIP("ok");
 		//curSendPacketsModel.setIpPro("ok");
 		//curSendPacketsModel.setName("ok");
+		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
+		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+		//add your code about send packets here...
+	}//
+	
+	@At
+	@Ok("jsp:page.sendpackets")
+	//@Ok("redirect:/platform/init")
+	public void resetPacket(Ioc ioc, HttpServletRequest request,
+			@Param("::packet.") SendPacketsModel sendPacketsModel) {//
+		
+		curSendPacketsModel.setName("");
+		curSendPacketsModel.setSendTimes("");
+		curSendPacketsModel.setSrcMac("");
+		curSendPacketsModel.setDstMac("");
+		curSendPacketsModel.setSrcIP("");
+		curSendPacketsModel.setDstIP("");
+		curSendPacketsModel.setIpPro("");
+		curSendPacketsModel.setSrcPort("");
+		curSendPacketsModel.setDstPort("");
+		curSendPacketsModel.setContent("");
+		
+		request.setAttribute("curFileList", curFileList);
+		request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//add your code about send packets here...
 	}
@@ -245,7 +314,9 @@ public class SendpacketsModule {
 		File[] t = f.listFiles();
 		
 		curFileList.clear();//先进行清空操作
-		curFileList.add(" ");
+		delFileList.clear();
+		curFileList.add(" ---请选择数据包---");
+		delFileList.add(" ---请删除数据包---");
 		for (int i = 0; i < t.length; i++) 
 		   { 
 			   int endIndex = t[i].getName().lastIndexOf("."); // 最后一个.(即后缀名前面的.)的索引
@@ -253,6 +324,7 @@ public class SendpacketsModule {
 			   String tempsuffix = t[i].getName().substring(0, endIndex);
 			   //System.out.println(tempsuffix);
 			   curFileList.add(tempsuffix);
+			   delFileList.add(tempsuffix);
 		   }
 	}
 	public void SetElementVale(String value, int indx)
