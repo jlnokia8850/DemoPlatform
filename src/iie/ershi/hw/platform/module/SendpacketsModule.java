@@ -64,7 +64,6 @@ public class SendpacketsModule {
 
 	@At
 	@Ok("jsp:page.sendpackets")
-	//@Ok("redirect:/platform/init")
 	public void savePacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {
 		
@@ -81,11 +80,8 @@ public class SendpacketsModule {
 		curSendPacketsModel.setDstPort(sendPacketsModel.getDstPort());
 		curSendPacketsModel.setContent(sendPacketsModel.getContent());
 		
-
-		
-		
 		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+curSendPacketsModel.getName()+".conf";
-		System.out.println(file_name);
+
 		savetoFile(file_name, curSendPacketsModel);
 		
 		curFileList.add(curSendPacketsModel.getName());
@@ -94,6 +90,7 @@ public class SendpacketsModule {
 		request.setAttribute("curFileList", curFileList);
 		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+		System.out.println("the last test:"+file_name);
 		//initList();
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
@@ -140,19 +137,20 @@ public class SendpacketsModule {
 				 System.out.println(strXmlLine);
 				 String element=null;
 				 int bngIndex = strXmlLine.lastIndexOf("="); // 得到最后一个=号
-				 if(bngIndex<0||bngIndex>=strXmlLine.length())bngIndex=strXmlLine.length();
+				 if(bngIndex<0||bngIndex>=strXmlLine.length())bngIndex=strXmlLine.length()-1;
 				 element=strXmlLine.substring(bngIndex+1, strXmlLine.length());
 				 SetElementVale(element,indx);
 				 indx++;
 			 }
+			 br.close();
 			
         }catch (IOException e) {
             e.printStackTrace();
         }
 		
 		request.setAttribute("curFileList", curFileList);
-		System.out.println("finish java process!");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
+		return ;
 	}
 	@At
 	@Ok("jsp:page.sendpackets")
@@ -287,6 +285,7 @@ public class SendpacketsModule {
 	}
 	public void SetElementVale(String value, int indx)
 	{
+		System.out.println(value + " "+indx);
 		if(indx==0)curSendPacketsModel.setSendTimes(value);
 		if(indx==1)curSendPacketsModel.setSrcMac(value);
 		if(indx==2)curSendPacketsModel.setDstMac(value);
@@ -310,7 +309,7 @@ public class SendpacketsModule {
 
 	@At
 	@Ok("raw:xml")
-	public String getAmchartsData() throws IOException {
+	public String getSendData() throws IOException {
 
 		String line; // 用来保存第一行读取的内容
 

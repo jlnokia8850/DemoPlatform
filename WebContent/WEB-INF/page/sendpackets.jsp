@@ -9,7 +9,6 @@
 <title>流量清洗演示系统</title>
 <link type="text/css" rel="stylesheet" href="${base}/css/bootstrap.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/bootstrap-select.css" />
-<link type="text/css" rel="stylesheet" href="${base}/css/bootstrap-select.min.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/index.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/stat.css" />
 <link type="text/css" rel="stylesheet" href="${base}/css/button.css" />
@@ -133,7 +132,7 @@
 		
 			<div class="span6">
 			   <div class="span6">
-			<form  id="form2" name="form2" action="">
+			<form  id="form2" name="form2">
 			    
 				<select id="select1" name="select1" class="selectpicker" onchange="selectOption(this[selectedIndex].innerHTML)">
 				<option value=" "> ---请选择数据包---</option>
@@ -154,8 +153,9 @@
 			</select>
 				
 			</form></div>
-			<div class="span6" style="height: 80px"></div>
+			<div class="span6" style="height: 150px"></div>
 			<div id="amcharts_regex">请安装Adobe Flash控件</div>
+			
 			
 		</div>
 		
@@ -179,7 +179,8 @@
 	$(document).ready(function() {
 		$('.selectpicker').selectpicker({
 
-		});
+			});
+		
 	});
 
      function save(){
@@ -196,7 +197,7 @@
      function selectOption(name){
     	
     	 window.location='${base}/platform/loadpacket?filename='+name;
-    	 document.form2.submit();
+    	// document.form2.submit();
     	// document.form4.submit();
       }
      function deleteOption(name){
@@ -209,7 +210,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-
+		
 			ChartHandler.init();
 			//document.getElementById("charsetSize").valueOf();
 
