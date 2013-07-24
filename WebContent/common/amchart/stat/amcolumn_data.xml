@@ -2,8 +2,7 @@
 <chart>
   <!-- <message bg_color="#BBBB00" text_color="#FFFFFF"><![CDATA[You can broadcast any message to chart from data XML file]]></message> -->
 	<series>
-	
-		<value xid="100">电厂建设</value>
+			<value xid="100">电厂建设</value>
 		<value xid="101">原料开采</value>
 		<value xid="102">原料运输</value>
 		<value xid="103">发电</value>

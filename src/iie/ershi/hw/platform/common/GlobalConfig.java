@@ -13,7 +13,6 @@ import java.util.Map;
  *
  */
 public class GlobalConfig {
-
 	/**
 	 * 应用会话过期时间，单位秒，缺省为60分钟
 	 */

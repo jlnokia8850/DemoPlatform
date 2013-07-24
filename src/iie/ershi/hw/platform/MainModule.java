@@ -18,7 +18,6 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 		"iie.ershi.hw.platform" })
 @SetupBy(value = HardwarePlatformSetup.class)
 public class MainModule {
-
 //	@At("/platform")
 //	@Ok("jsp:page.hello")
 //	public String doHello() {

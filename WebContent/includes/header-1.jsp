@@ -6,8 +6,7 @@
  	  </c:if>
  	  <c:if test="${param.target == null }">
  	  	<c:set var="target" value="consumption"></c:set>
- 	  </c:if>
- 	  
+ 	  </c:if> 	  
  	  
       <div class="navbar navbar-fixed-top" id="nav">
         <div class="navbar-inner">
