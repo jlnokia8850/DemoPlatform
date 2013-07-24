@@ -311,11 +311,13 @@ public class SendpacketsModule {
 	@At
 	@Ok("jsp:page.recpackets")
 	public void getAmchartsData(String[] args) throws DocumentException,IOException {
+		
 		File file = new File("d:/regex_Speed.txt");
 		List list = new ArrayList();
 		int[] nums = { 0 };
 
-		File configFile = new File("d:/amcolumn_data1.xml");
+		//File configFile = new File("d:/amcolumn_data1.xml");
+		String configFile= GlobalConfig.getContextValue("amchartData.dir")+"/"+"amcolumn_data1.xml";
 		SAXReader reader = new SAXReader();
 		Document doc = null;
 		doc = reader.read(configFile);

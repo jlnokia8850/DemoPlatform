@@ -137,10 +137,12 @@
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 
-				this.setting_file = "${base}/common/amchart/stat/amcolumn_settings.xml";
+				//this.setting_file = "${base}/common/amchart/stat/amcolumn_settings.xml";
+				this.setting_file = "${base}/archartData/amcolumn_settings.xml";
 				//data_file = this.getRegexResultDataFile();
 
-				this.data_file = "${base}/common/amchart/stat/amcolumn_data2.xml";
+				//this.data_file = "${base}/common/amchart/stat/amcolumn_data2.xml";
+				this.data_file = "${base}/archartData/amcolumn_data2.xml";
 
 				this.so.addVariable("settings_file",
 						encodeURIComponent(this.setting_file));
