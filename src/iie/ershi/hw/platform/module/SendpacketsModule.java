@@ -38,7 +38,7 @@ public class SendpacketsModule {
 	private SendPacketsModel curSendPacketsModel = new SendPacketsModel();
 	
 	private List<String> curFileList=new ArrayList<String>();
-	private List<String> delFileList=new ArrayList<String>();
+	//private List<String> delFileList=new ArrayList<String>();
 	private int defaulted;
 	 
 	@At
@@ -55,7 +55,7 @@ public class SendpacketsModule {
 		initList();
 		
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 
@@ -86,10 +86,10 @@ public class SendpacketsModule {
 		savetoFile(file_name, curSendPacketsModel);
 		
 		curFileList.add(curSendPacketsModel.getName());
-		delFileList.add(curSendPacketsModel.getName());
+		//delFileList.add(curSendPacketsModel.getName());
 		
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//initList();
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
@@ -148,7 +148,7 @@ public class SendpacketsModule {
         }
 		
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		System.out.println("finish java process!");
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 	@At
@@ -180,9 +180,9 @@ public class SendpacketsModule {
 		curSendPacketsModel.setContent("");
 		
 		curFileList.remove(petName);
-		delFileList.remove(petName);
+		//delFileList.remove(petName);
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 	@At
@@ -198,7 +198,7 @@ public class SendpacketsModule {
 		//curSendPacketsModel.setIpPro("ok");
 		//curSendPacketsModel.setName("ok");
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//add your code about send packets here...
 	}//
@@ -221,7 +221,7 @@ public class SendpacketsModule {
 		curSendPacketsModel.setContent("");
 		
 		request.setAttribute("curFileList", curFileList);
-		request.setAttribute("delFileList", delFileList);
+		//request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		//add your code about send packets here...
 	}
@@ -314,9 +314,8 @@ public class SendpacketsModule {
 		File[] t = f.listFiles();
 		
 		curFileList.clear();//先进行清空操作
-		delFileList.clear();
-		curFileList.add(" ---请选择数据包---");
-		delFileList.add(" ---请删除数据包---");
+		//delFileList.clear();
+
 		for (int i = 0; i < t.length; i++) 
 		   { 
 			   int endIndex = t[i].getName().lastIndexOf("."); // 最后一个.(即后缀名前面的.)的索引
@@ -324,7 +323,7 @@ public class SendpacketsModule {
 			   String tempsuffix = t[i].getName().substring(0, endIndex);
 			   //System.out.println(tempsuffix);
 			   curFileList.add(tempsuffix);
-			   delFileList.add(tempsuffix);
+			   //delFileList.add(tempsuffix);
 		   }
 	}
 	public void SetElementVale(String value, int indx)

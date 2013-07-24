@@ -136,6 +136,7 @@
 			<form  id="form2" name="form2" action="">
 			    
 				<select id="select1" name="select1" class="selectpicker" onchange="selectOption(this[selectedIndex].innerHTML)">
+				<option value=" "> ---请选择数据包---</option>
 				<c:forEach items="${curFileList}" var="file">
 		    		<option value="${file}">${file}</option>
  				</c:forEach>
@@ -146,8 +147,8 @@
 			    <div class="span6">
 			<form  id="form4" name="form4" action="">
 			<select id="select2" name="select2" class="selectpicker" onchange="deleteOption(this[selectedIndex].innerHTML)">
-			<option value=" ">make choose</option>
-			<c:forEach items="${delFileList}" var="file">
+			<option value=" "> ---请删除数据包---</option>
+			<c:forEach items="${curFileList}" var="file">
 		    	<option value="${file}">${file}</option>
  			</c:forEach>
 			</select>
@@ -195,13 +196,12 @@
      function selectOption(name){
     	
     	 window.location='${base}/platform/loadpacket?filename='+name;
-    	// document.form2.submit();
+    	 document.form2.submit();
     	// document.form4.submit();
       }
      function deleteOption(name){
      	
     	 window.location='${base}/platform/deltpacket?filename='+name;
-    	// document.form4.submit();
       }
      </script>
 
