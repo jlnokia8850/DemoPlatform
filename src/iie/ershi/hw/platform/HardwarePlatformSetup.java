@@ -1,6 +1,5 @@
 package iie.ershi.hw.platform;
 
-
 import iie.ershi.hw.platform.common.GlobalConfig;
 
 import java.io.File;
@@ -28,5 +27,7 @@ public class HardwarePlatformSetup implements Setup{
 		GlobalConfig.addContextValue("webinf.dir", webdir + "/WEB-INF");
 		GlobalConfig.addContextValue("upload.dir", webdir
 				+ "/WEB-INF/uploadTmp");
+		GlobalConfig.addContextValue("conf.dir", webdir
+				+ "/conf");
 	}
 }
