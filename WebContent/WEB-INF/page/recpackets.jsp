@@ -25,13 +25,10 @@
 		<div class="row-fluid">
 			<div class="span6">
 				<p class="muted">&nbsp;</p>
-				<p class="muted">&nbsp;</p>
 				<div id="amcharts_num_rec" style="text-align: center">You need
 					to upgrade your Flash Player</div>
 			</div>
 			<div class="span6">
-				<p class="muted">&nbsp;</p>
-				<p class="muted">&nbsp;</p>
 				<p class="muted">&nbsp;</p>
 				<div id="amcharts_num_drop" style="text-align: center">You
 					need to upgrade your Flash Player</div>
@@ -57,6 +54,35 @@
 	<script type="text/javascript" src="${base}/js/jquery.js"></script>
 	<script type="text/javascript" src="${base}/js/bootstrap.js"></script>
 	<script type="text/javascript" src="${base}/amchart/swfobject.js"></script>
+
+	<script type="text/javascript"> //ajax方式，与nutz通讯 var
+	var xmlHttp=false; 
+	xmlHttp=newActiveXObject("Microsoft.XMLHTTP"); 
+	/*try
+	{
+		xmlHttp=newActiveXObject("Msxml2.XMLHTTP"); 
+	}	catch (e) 
+	{ 
+		try
+		{
+			xmlHttp=newActiveXObject("Microsoft.XMLHTTP"); 
+		}	catch (e2) { xmlHttp=false; } 
+	} 
+	if (!xmlHttp && typeof XMLHttpRequest !='undefined')
+	{ 
+		xmlHttp=newXMLHttpRequest();
+	} */
+	
+	function getXMLHTTPData() 
+	{
+		//alert(1);
+		var url="${base}/platform/getAmchartsData"; 
+		xmlHttp.open("POST",url,true);//提交数据
+		
+	}
+	
+	</script>
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
 
@@ -71,6 +97,11 @@
 			//</c:if>
 
 		});
+
+		//var timer_interval = setInterval(
+		//		"ChartHandler.getRegexResultDataFile()", 5000);
+		var timer_interval = setInterval("getXMLHTTPData()",1000);
+		//		alert("1");
 		var ChartHandler = {
 
 			swfPath : "${base}/amchart/amcolumn_1.6.0.1/amcolumn/amcolumn.swf",
@@ -80,7 +111,7 @@
 			so : null,
 			rec : function() {
 				//alert('aaaa');
-				this.so = new SWFObject(this.swfPath, "amcolumn", "420", "350",
+				this.so = new SWFObject(this.swfPath, "amcolumn", "480", "450",
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 
@@ -102,7 +133,7 @@
 			},
 			drop : function() {
 				//alert('aaaa');
-				this.so = new SWFObject(this.swfPath, "amcolumn", "420", "350",
+				this.so = new SWFObject(this.swfPath, "amcolumn", "480", "450",
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 
@@ -123,9 +154,12 @@
 
 			},
 			getRegexResultDataFile : function() {
-				//var s = Math.random().toString();
-				//var data_file = "${base}/platform/getAmchartsData?nocache=" + s;
-				//return data_file;
+				var s = Math.random().toString();
+				// var data_file = "${base}/platform/getAmchartsData?nocache=" + s;
+
+				//window.location = "${base}/platform/getAmchartsData";
+
+				return;
 			},
 			reloadChart : function() {
 				//var data_file = this.getRegexResultDataFile();
@@ -135,8 +169,5 @@
 
 		};
 	</script>
-
-
-
 </body>
 </html>
