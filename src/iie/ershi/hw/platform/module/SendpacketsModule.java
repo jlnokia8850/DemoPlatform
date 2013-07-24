@@ -309,50 +309,52 @@ public class SendpacketsModule {
 	}
 
 	@At
-	@Ok("raw:xml")
-	public String getAmchartsData() throws IOException {
+	@Ok("jsp:page.recpackets")
+	public void getAmchartsData(String[] args) throws DocumentException,IOException {
+		File file = new File("d:/regex_Speed.txt");
+		List list = new ArrayList();
+		int[] nums = { 0 };
 
-		String line; // 用来保存第一行读取的内容
+		File configFile = new File("d:/amcolumn_data1.xml");
+		SAXReader reader = new SAXReader();
+		Document doc = null;
+		doc = reader.read(configFile);
 
-		File f = new File(GlobalConfig.getContextValue("upload.dir")
-				+ "/regex_Speed.txt");
+		try {
+			BufferedReader bw = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = bw.readLine()) != null) {
+				if (line.charAt(0) == '\r' || line.charAt(0) == '\n')
+					list.add("0");
+				else
+					list.add(line);
 
-		if (!f.exists())
-			line = "0;0;0;0;0;0;";
-		else {
-			InputStream is = new FileInputStream(f);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
-			line = reader.readLine();
-
-			reader.close();
-		}
-		String speeds[] = line.split(";");
-		System.out.println(speeds.length);
-
-		for (int i = 0; i < speeds.length; i++) {
-			System.out.println(speeds[i]);
-		}
-
-		Document document = DocumentHelper.createDocument();
-		Element chartEle = document.addElement("chart");
-		Element seriesEle = chartEle.addElement("series");
-		Element graphsEle = chartEle.addElement("graphs");
-		Element consumptionGraphEle = graphsEle.addElement("graph")
-				.addAttribute("gid", "2").addAttribute("color", "#9FCD95")
-				.addAttribute("gradient_fill_colors", "#99CCFF, #000FFF");
-
-		for (int i = 0; i < speeds.length; i++) {
-			int k = i + 1;
-			seriesEle.addElement("value").addAttribute("xid", "" + i)
-					.addText("" + k);
-
-			consumptionGraphEle.addElement("value").addAttribute("xid", "" + i)
-					.addAttribute("color", "#318DBD").addText(speeds[i]);
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		return document.asXML();
+		nums = new int[12];
+		for (int i = 0; i < list.size() && i < 12; i++) {
+			String s = (String) list.get(i);
+			nums[i] = Integer.parseInt(s);
+		}
 
+		Element root = doc.getRootElement();
+		Element graphs = root.element("graphs");
+		Element graph = graphs.element("graph");
+		Element val = graph.element("value");
+		graph.clearContent();
+		for (int i = 0; i < 12; i++) {
+			graph.addElement("value").addAttribute("xid", "" + i)
+					.addText("" + nums[i]);
+		}
+		
+		XMLWriter out = new XMLWriter(new FileWriter("d:/amcolumn_data1.xml"));
+		out.write(doc);
+		out.close();
+		return;
 	}
 
 	public static void main(String[] args) throws DocumentException,
@@ -370,9 +372,14 @@ public class SendpacketsModule {
 			BufferedReader bw = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = bw.readLine()) != null) {
-				list.add(line);
+				if (line.charAt(0) == '\r' || line.charAt(0) == '\n')
+					list.add("0");
+				else
+					list.add(line);
+
 			}
 			bw.close();
+//			System.out.println((list.get(list.size() - 2) == '\n'));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -383,7 +390,7 @@ public class SendpacketsModule {
 		// }
 
 		nums = new int[12];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size() && i < 12; i++) {
 			String s = (String) list.get(i);
 			nums[i] = Integer.parseInt(s);
 		}
@@ -408,5 +415,4 @@ public class SendpacketsModule {
 		out.close();
 		return;
 	}
-
 }

@@ -15,18 +15,31 @@
 		<value xid="11">前55s</value>
 	</series>
 	<graphs>
-		<graph gid="0" color="#9FCD95" gradient_fill_colors="#FFFFFF, #9FCD95"><value xid="0">11</value><value xid="1">22</value><value xid="2">33</value><value xid="3">44</value><value xid="4">55</value><value xid="5">66</value><value xid="6">77</value><value xid="7">88</value><value xid="8">99</value><value xid="9">1010</value><value xid="10">1111</value><value xid="11">1212</value></graph>
+		<graph gid="0" color="#9FCD95" gradient_fill_colors="#FFFFFF, #9FCD95">
+		<value xid="0">1111</value>
+		<value xid="1">22</value>
+		<value xid="2">33</value>
+		<value xid="3">44</value>
+		<value xid="4">55</value>
+		<value xid="5">66</value>
+		<value xid="6">77</value>
+		<value xid="7">88</value>
+		<value xid="8">99</value>
+		<value xid="9">1010</value>
+		<value xid="10">1111</value>
+		<value xid="11">1212</value>
+		</graph>
 	</graphs>
 	
   <labels>         
     <label lid="0">
-      <x>40</x>                   
-      <y>330</y>                  
+      <x>0</x>                   
+      <y>400</y>                  
       <rotate></rotate>          
       <width></width>            
       <align>center</align>        
-      <text_color></text_color>  
-      <text_size></text_size>    
+      <text_color>#483D8B</text_color>  
+      <text_size>20</text_size>    
       <text>                     
         <![CDATA[<b>接收数据包数量</b>]]>
       </text>        
