@@ -39,26 +39,25 @@ public class SendpacketsModule {
 
 	private SendPacketsModel curSendPacketsModel = new SendPacketsModel();
 
-	
-	private List<String> curFileList=new ArrayList<String>();
-	//private List<String> delFileList=new ArrayList<String>();
+	private List<String> curFileList = new ArrayList<String>();
+	List<String> sendTimes = new ArrayList<String>();
 	private int defaulted;
-	 
+
 	@At
 	@Ok("jsp:page.sendpackets")
 	// @Ok("redirect:/regex/config?init=true&scanover=false")
 	public void init(Ioc ioc, HttpServletRequest request) {
-		//curSendPacketsModel.setSendTimes("1");
-		//curSendPacketsModel.setSrcMac("FF-FF-FF-FF-FF");
-		//curSendPacketsModel.setDstMac("FF-FF-FF-FF-FF");
-		//curSendPacketsModel.setSrcIP("172.0.0.1");
-		
-		defaulted=0;
-		
+		// curSendPacketsModel.setSendTimes("1");
+		// curSendPacketsModel.setSrcMac("FF-FF-FF-FF-FF");
+		// curSendPacketsModel.setDstMac("FF-FF-FF-FF-FF");
+		// curSendPacketsModel.setSrcIP("172.0.0.1");
+
+		defaulted = 0;
+
 		initList();
-		
+
 		request.setAttribute("curFileList", curFileList);
-		//request.setAttribute("delFileList", delFileList);
+		// request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
 
@@ -66,10 +65,11 @@ public class SendpacketsModule {
 	@Ok("jsp:page.sendpackets")
 	public void savePacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {
-		
+
 		curSendPacketsModel.setName(sendPacketsModel.getName());
-	
-		if(sendPacketsModel.getName()=="")curSendPacketsModel.setName("packet"+ (++defaulted));
+
+		if (sendPacketsModel.getName() == "")
+			curSendPacketsModel.setName("packet" + (++defaulted));
 		curSendPacketsModel.setSendTimes(sendPacketsModel.getSendTimes());
 		curSendPacketsModel.setSrcMac(sendPacketsModel.getSrcMac());
 		curSendPacketsModel.setDstMac(sendPacketsModel.getDstMac());
@@ -79,31 +79,36 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcPort(sendPacketsModel.getSrcPort());
 		curSendPacketsModel.setDstPort(sendPacketsModel.getDstPort());
 		curSendPacketsModel.setContent(sendPacketsModel.getContent());
-		
-		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+curSendPacketsModel.getName()+".conf";
+
+		String file_name = GlobalConfig.getContextValue("conf.dir") + "/"
+				+ curSendPacketsModel.getName() + ".conf";
 
 		savetoFile(file_name, curSendPacketsModel);
-		
-		curFileList.add(curSendPacketsModel.getName());
-		//delFileList.add(curSendPacketsModel.getName());
-		
+
+		if (!curFileList.contains(curSendPacketsModel.getName()))
+			curFileList.add(curSendPacketsModel.getName());
+		// delFileList.add(curSendPacketsModel.getName());
+
 		request.setAttribute("curFileList", curFileList);
-		//request.setAttribute("delFileList", delFileList);
+		// request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
-		System.out.println("the last test:"+file_name);
-		//initList();
+		System.out.println("the last test:" + file_name);
+		// initList();
 		// curSendPacketsModel.setSendTimes(packet.getSendTimes());
 		// request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 		// curSendPacketsModel.setCharsetSize("256");
 		// curSendPacketsModel.setRegexAlgor("DFA压缩匹配算法");
 
 		// DecimalFormat df = new DecimalFormat("######0.00");
-		 //File f = new File(GlobalConfig.getContextValue("upload.dir") + "/regex_Data.txt");
-		 //double f_size = (double) (f.length() / 1024 / 1024); // MB
+		// File f = new File(GlobalConfig.getContextValue("upload.dir") +
+		// "/regex_Data.txt");
+		// double f_size = (double) (f.length() / 1024 / 1024); // MB
 		// df.format(f_size);
 		// curRegexType.setDataSize(Double.toString(f_size));
 		//
-		// RuleFileInfo ruleFileInfo = readFileByLines(GlobalConfig.getContextValue("upload.dir") + "/regex_Rule.txt");
+		// RuleFileInfo ruleFileInfo =
+		// readFileByLines(GlobalConfig.getContextValue("upload.dir") +
+		// "/regex_Rule.txt");
 		// curRegexType.setRegexNum(String.valueOf(ruleFileInfo.pRulesNum));
 		// curRegexType.setRegexLength(String.valueOf(ruleFileInfo.pRulesMinLen)
 		// + "-" + String.valueOf(ruleFileInfo.pRulesMaxLen));
@@ -115,58 +120,63 @@ public class SendpacketsModule {
 		// curRegexModel.setK(k);
 
 	}
+
 	@At
 	@Ok("jsp:page.sendpackets")
 	public void loadpacket(Ioc ioc, HttpServletRequest request,
-			@Param("filename") String petName){//函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
-	
+			@Param("filename") String petName) {// 函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
+
 		System.out.print(petName);
-		
+
 		curSendPacketsModel.setName(petName);
-		
-		//结下来是读文件操作
-		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+petName+".conf";
-		File file=null;
-		BufferedReader br=null;
+
+		// 结下来是读文件操作
+		String file_name = GlobalConfig.getContextValue("conf.dir") + "/"
+				+ petName + ".conf";
+		File file = null;
+		BufferedReader br = null;
 		String strXmlLine = "";
-		try{
-			file = new File(file_name);//文件路径
+		try {
+			file = new File(file_name);// 文件路径
 			br = new BufferedReader(new FileReader(file));
-			int indx=0;
-			 while ((strXmlLine = br.readLine()) != null) {
-				 System.out.println(strXmlLine);
-				 String element=null;
-				 int bngIndex = strXmlLine.lastIndexOf("="); // 得到最后一个=号
-				 if(bngIndex<0||bngIndex>=strXmlLine.length())bngIndex=strXmlLine.length()-1;
-				 element=strXmlLine.substring(bngIndex+1, strXmlLine.length());
-				 SetElementVale(element,indx);
-				 indx++;
-			 }
-			 br.close();
-			
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-		
+			int indx = 0;
+			while ((strXmlLine = br.readLine()) != null) {
+				System.out.println(strXmlLine);
+				String element = null;
+				int bngIndex = strXmlLine.lastIndexOf("="); // 得到最后一个=号
+				if (bngIndex < 0 || bngIndex >= strXmlLine.length())
+					bngIndex = strXmlLine.length() - 1;
+				element = strXmlLine.substring(bngIndex + 1,
+						strXmlLine.length());
+				SetElementVale(element, indx);
+				indx++;
+			}
+			br.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		request.setAttribute("curFileList", curFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
-		return ;
+		return;
 	}
+
 	@At
 	@Ok("jsp:page.sendpackets")
 	public void deltpacket(Ioc ioc, HttpServletRequest request,
-			@Param("filename") String petName){//函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
-	
-		System.out.print(petName);
-		
-		//结下来是删除文件操作
-		String file_name= GlobalConfig.getContextValue("conf.dir")+"/"+petName+".conf";
-		File file=null;
+			@Param("filename") String petName) {// 函数用于处理选择包名，显示对应的协议内容。主要是读文件操作
 
-		
-		file = new File(file_name);//文件路径
-		if (file.isFile() && file.exists()) {   
-			System.gc();//启动jvm垃圾回收
+		System.out.print(petName);
+
+		// 结下来是删除文件操作
+		String file_name = GlobalConfig.getContextValue("conf.dir") + "/"
+				+ petName + ".conf";
+		File file = null;
+
+		file = new File(file_name);// 文件路径
+		if (file.isFile() && file.exists()) {
+			System.gc();// 启动jvm垃圾回收
 			file.delete();
 		}
 		curSendPacketsModel.setName("");
@@ -179,37 +189,38 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcPort("");
 		curSendPacketsModel.setDstPort("");
 		curSendPacketsModel.setContent("");
-		
+
 		curFileList.remove(petName);
-		//delFileList.remove(petName);
+		// delFileList.remove(petName);
 		request.setAttribute("curFileList", curFileList);
-		//request.setAttribute("delFileList", delFileList);
+		// request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
 	}
+
 	@At
 	@Ok("jsp:page.sendpackets")
-	//@Ok("redirect:/platform/init")
+	// @Ok("redirect:/platform/init")
 	public void sendPacket(Ioc ioc, HttpServletRequest request,
-			@Param("::packet.") SendPacketsModel sendPacketsModel) {//发送数据包，此函数应该什么都不要做
-		//curSendPacketsModel.setSendTimes("ok");
-		//curSendPacketsModel.setSrcMac("ok");
-		//curSendPacketsModel.setDstMac("ok");
-		//curSendPacketsModel.setSrcIP("ok");
-		//curSendPacketsModel.setDstIP("ok");
-		//curSendPacketsModel.setIpPro("ok");
-		//curSendPacketsModel.setName("ok");
+			@Param("::packet.") SendPacketsModel sendPacketsModel) {// 发送数据包，此函数应该什么都不要做
+		// curSendPacketsModel.setSendTimes("ok");
+		// curSendPacketsModel.setSrcMac("ok");
+		// curSendPacketsModel.setDstMac("ok");
+		// curSendPacketsModel.setSrcIP("ok");
+		// curSendPacketsModel.setDstIP("ok");
+		// curSendPacketsModel.setIpPro("ok");
+		// curSendPacketsModel.setName("ok");
 		request.setAttribute("curFileList", curFileList);
-		//request.setAttribute("delFileList", delFileList);
+		// request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
-		//add your code about send packets here...
+		// add your code about send packets here...
 	}//
-	
+
 	@At
 	@Ok("jsp:page.sendpackets")
-	//@Ok("redirect:/platform/init")
+	// @Ok("redirect:/platform/init")
 	public void resetPacket(Ioc ioc, HttpServletRequest request,
 			@Param("::packet.") SendPacketsModel sendPacketsModel) {//
-		
+
 		curSendPacketsModel.setName("");
 		curSendPacketsModel.setSendTimes("");
 		curSendPacketsModel.setSrcMac("");
@@ -220,117 +231,124 @@ public class SendpacketsModule {
 		curSendPacketsModel.setSrcPort("");
 		curSendPacketsModel.setDstPort("");
 		curSendPacketsModel.setContent("");
-		
+
 		request.setAttribute("curFileList", curFileList);
-		//request.setAttribute("delFileList", delFileList);
+		// request.setAttribute("delFileList", delFileList);
 		request.setAttribute("curSendPacketsModel", curSendPacketsModel);
-		//add your code about send packets here...
+		// add your code about send packets here...
 	}
-	
 
-	public void savetoFile(String file_name, SendPacketsModel send_bean)//把数据包保存到文件
+	public void savetoFile(String file_name, SendPacketsModel send_bean)// 把数据包保存到文件
 	{
-		 try {
-	            //打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
-			
-	           File file=new File(file_name); 
-	           if(!file.exists()){            
-	        	   try {                 
-	        		   file.createNewFile();//创建文件 
-	        		   file.mkdir();//创建目录
-	        		   System.out.print("OKOKOKOKKOKOKKOKOKOKOKOKKO!");
-	        		  // file.delete();//调用完马上就删除了
-	        		  // file.deleteOnExit();//程序退出时，可以作为临时文件。
-	        		   } catch (IOException e) {                
-	        			   e.printStackTrace();             
-	        			   }         
-	        	   } 
-	           BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
-	           
-	           
-	            writer.write("SEND_TIMES="+send_bean.getSendTimes()+"\n");
-	            writer.write("SRC_MAC="+send_bean.getSrcMac()+"\n");
-	            writer.write("DST_MAC="+send_bean.getDstMac()+"\n");
-	            writer.write("SRC_IP="+send_bean.getSrcIP()+"\n");
-	            writer.write("DST_IP="+send_bean.getDstIP()+"\n");
-	            writer.write("IP_PRO="+send_bean.getIpPro()+"\n");
-	            writer.write("SRC_PORT="+send_bean.getSrcPort()+"\n");
-	            writer.write("DST_PORT="+send_bean.getDstPort()+"\n");
-	            writer.write("DATA_CONTENT="+send_bean.getContent()+"\n");
-	            
-	            writer.close();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+		try {
+			// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+
+			File file = new File(file_name);
+			if (!file.exists()) {
+				try {
+					file.createNewFile();// 创建文件
+					file.mkdir();// 创建目录
+					System.out.print("OKOKOKOKKOKOKKOKOKOKOKOKKO!");
+					// file.delete();//调用完马上就删除了
+					// file.deleteOnExit();//程序退出时，可以作为临时文件。
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file,
+					true));
+
+			writer.write("SEND_TIMES=" + send_bean.getSendTimes() + "\n");
+			writer.write("SRC_MAC=" + send_bean.getSrcMac() + "\n");
+			writer.write("DST_MAC=" + send_bean.getDstMac() + "\n");
+			writer.write("SRC_IP=" + send_bean.getSrcIP() + "\n");
+			writer.write("DST_IP=" + send_bean.getDstIP() + "\n");
+			writer.write("IP_PRO=" + send_bean.getIpPro() + "\n");
+			writer.write("SRC_PORT=" + send_bean.getSrcPort() + "\n");
+			writer.write("DST_PORT=" + send_bean.getDstPort() + "\n");
+			writer.write("DATA_CONTENT=" + send_bean.getContent() + "\n");
+
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
-	public void initList()
-	{
-		String file_name= GlobalConfig.getContextValue("conf.dir")+"/";
+
+	public void initList() {
+		String file_name = GlobalConfig.getContextValue("conf.dir") + "/";
 		File f = new File(file_name);
 		File[] t = f.listFiles();
-		
-		curFileList.clear();//先进行清空操作
-		//delFileList.clear();
 
-		for (int i = 0; i < t.length; i++) 
-		   { 
-			   int endIndex = t[i].getName().lastIndexOf("."); // 最后一个.(即后缀名前面的.)的索引
-			   if(endIndex<0 || endIndex>t[i].getName().length()) endIndex=t[i].getName().length();
-			   String tempsuffix = t[i].getName().substring(0, endIndex);
-			   //System.out.println(tempsuffix);
-			   curFileList.add(tempsuffix);
-			   //delFileList.add(tempsuffix);
-		   }
-	}
-	public void SetElementVale(String value, int indx)
-	{
-		System.out.println(value + " "+indx);
-		if(indx==0)curSendPacketsModel.setSendTimes(value);
-		if(indx==1)curSendPacketsModel.setSrcMac(value);
-		if(indx==2)curSendPacketsModel.setDstMac(value);
-		if(indx==3)curSendPacketsModel.setSrcIP(value);
-		if(indx==4)curSendPacketsModel.setDstIP(value);
-		if(indx==5)curSendPacketsModel.setIpPro(value);
-		if(indx==6)curSendPacketsModel.setSrcPort(value);
-		if(indx==7)curSendPacketsModel.setDstPort(value);
-		if(indx==8)curSendPacketsModel.setContent(value);
-		//.....
-	}
-	
-	
-	////////////////////////////////////////////////////////////////////////////////////////
-	
-	@At
-	@Ok("jsp:page.recpackets")
-	public void recpackets() {
+		curFileList.clear();// 先进行清空操作
+		// delFileList.clear();
 
+		for (int i = 0; i < t.length; i++) {
+			int endIndex = t[i].getName().lastIndexOf("."); // 最后一个.(即后缀名前面的.)的索引
+			if (endIndex < 0 || endIndex > t[i].getName().length())
+				endIndex = t[i].getName().length();
+			String tempsuffix = t[i].getName().substring(0, endIndex);
+			// System.out.println(tempsuffix);
+			curFileList.add(tempsuffix);
+			// delFileList.add(tempsuffix);
+		}
 	}
+
+	public void SetElementVale(String value, int indx) {
+		System.out.println(value + " " + indx);
+		if (indx == 0)
+			curSendPacketsModel.setSendTimes(value);
+		if (indx == 1)
+			curSendPacketsModel.setSrcMac(value);
+		if (indx == 2)
+			curSendPacketsModel.setDstMac(value);
+		if (indx == 3)
+			curSendPacketsModel.setSrcIP(value);
+		if (indx == 4)
+			curSendPacketsModel.setDstIP(value);
+		if (indx == 5)
+			curSendPacketsModel.setIpPro(value);
+		if (indx == 6)
+			curSendPacketsModel.setSrcPort(value);
+		if (indx == 7)
+			curSendPacketsModel.setDstPort(value);
+		if (indx == 8)
+			curSendPacketsModel.setContent(value);
+		// .....
+	}
+
+	// //////////////////////////////////////////////////////////////////////////////////////
 
 	@At
 	@Ok("raw:xml")
-	public String getSendData() throws IOException {
+	public String getSendData(Ioc ioc, HttpServletRequest request,
+			@Param("nocache") String randomString) throws IOException {
 
-		String line; // 用来保存第一行读取的内容
+		String line = ""; // 用来保存第一行读取的内容
+		createDataSendTimes();
+		// File f = new File(GlobalConfig.getContextValue("upload.dir")
+		// + "/sendnums.txt");
 
-		File f = new File(GlobalConfig.getContextValue("upload.dir")
-				+ "/regex_Speed.txt");
+		// System.out.println(GlobalConfig.getContextValue("upload.dir")
+		// + "/sendnums.txt");
+		// if (!f.exists())
+		// line = "100;130";//line 的内容就是显示的内容
+		// else {
+		// InputStream is = new FileInputStream(f);
+		// BufferedReader reader = new BufferedReader(
+		// new InputStreamReader(is));
+		// line = reader.readLine();
 
-		if (!f.exists())
-			line = "0;0;0;0;0;0;";
-		else {
-			InputStream is = new FileInputStream(f);
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
-			line = reader.readLine();
-
-			reader.close();
+		// reader.close();
+		// }
+		for (int i = 0; i < sendTimes.size(); i++) {
+			line = line + sendTimes.get(i) + ";";
 		}
 		String speeds[] = line.split(";");
-		System.out.println(speeds.length);
+		System.out.println("length" + speeds.length);
 
 		for (int i = 0; i < speeds.length; i++) {
-			System.out.println(speeds[i]);
+			System.out.println("element" + speeds[i]);// line显示的内容12,11,10,20,15,14
 		}
 
 		Document document = DocumentHelper.createDocument();
@@ -344,7 +362,7 @@ public class SendpacketsModule {
 		for (int i = 0; i < speeds.length; i++) {
 			int k = i + 1;
 			seriesEle.addElement("value").addAttribute("xid", "" + i)
-					.addText("" + k);
+					.addText(curFileList.get(i));
 
 			consumptionGraphEle.addElement("value").addAttribute("xid", "" + i)
 					.addAttribute("color", "#318DBD").addText(speeds[i]);
@@ -354,11 +372,171 @@ public class SendpacketsModule {
 
 	}
 
+	private void createDataSendTimes() {
+		sendTimes.clear();
+		for (int i = 0; i < curFileList.size(); i++) {
+			// 结下来是读文件操作
+			String file_name = GlobalConfig.getContextValue("conf.dir") + "/"
+					+ curFileList.get(i) + ".conf";
+			File file = null;
+			BufferedReader br = null;
+			String strXmlLine = "";
+			try {
+				file = new File(file_name);// 文件路径
+				br = new BufferedReader(new FileReader(file));
+				while ((strXmlLine = br.readLine()) != null) {
+					System.out.println(strXmlLine);
+					String element = null;
+					int bngIndex = strXmlLine.lastIndexOf("="); // 得到最后一个=号
+					if (bngIndex < 0 || bngIndex >= strXmlLine.length())
+						bngIndex = strXmlLine.length() - 1;
+					element = strXmlLine.substring(bngIndex + 1,
+							strXmlLine.length());
+					sendTimes.add(element);
+					break;
+				}
+				br.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		for (int i = 0; i < sendTimes.size(); i++) {
+			System.out.print(sendTimes.get(i) + " *******\n");
+		}
+		return;
+	}
+
+	// //////////////////////////////////////////////////////////////////////////////////////
+
+	@At
+	@Ok("jsp:page.recpackets")
+	public void recpackets() {
+
+	}
+
+	@At
+	@Ok("jsp:page.recpackets")
+	public void getAmchartsDatarec(String[] args) throws DocumentException,
+			IOException {
+
+		File file = new File("d:/regex_Speed.txt");
+		List list = new ArrayList();
+		int[] nums = { 0 };
+
+		String path = GlobalConfig.getContextValue("amchartData.dir") + "/"	+ "amcolumn_data_rec.xml";
+		File configFile = new File(path);
+		SAXReader reader = new SAXReader();
+		Document doc = null;
+		doc = reader.read(configFile);
+
+		try {
+			BufferedReader bw = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = bw.readLine()) != null) {
+				if (line.charAt(0) == '\r' || line.charAt(0) == '\n')
+					list.add("0");
+				else
+					list.add(line);
+
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		nums = new int[12];
+		for (int i = 0; i < list.size() && i < 12; i++) {
+			String s = (String) list.get(i);
+			nums[i] = Integer.parseInt(s);
+		}
+
+		Element root = doc.getRootElement();
+		Element graphs = root.element("graphs");
+		Element graph = graphs.element("graph");
+		Element val = graph.element("value");
+		graph.clearContent();
+		for (int i = 0; i < 12; i++) {
+			graph.addElement("value").addAttribute("xid", "" + i)
+					.addText("" + nums[i]);
+		}
+
+		XMLWriter out = new XMLWriter(new FileWriter("d:/amcolumn_data1.xml"));
+		out.write(doc);
+		out.close();
+
+		Document document = DocumentHelper.createDocument();
+
+		return;
+	}
+	
+	@At
+	@Ok("raw:xml")
+	public String getAmchartsDatadrop(String[] args) throws DocumentException,
+			IOException {
+
+		File file = new File("d:/regex_Speed.txt");
+		List list = new ArrayList();
+		int[] nums = { 0 };
+
+		String path = GlobalConfig.getContextValue("amchartData.dir") + "/"	+ "amcolumn_data_drop.xml";
+		File configFile = new File(path);
+		// File configFile = new
+		// File("WebContent/amchartData/amcolumn_data1.xml");
+		SAXReader reader = new SAXReader();
+		Document doc = null;
+		doc = reader.read(configFile);
+
+		try {
+			BufferedReader bw = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = bw.readLine()) != null) {
+				if (line.charAt(0) == '\r' || line.charAt(0) == '\n')
+					list.add("0");
+				else
+					list.add(line);
+
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		nums = new int[12];
+		for (int i = 0; i < list.size() && i < 12; i++) {
+			String s = (String) list.get(i);
+			nums[i] = Integer.parseInt(s);
+		}
+
+		Element root = doc.getRootElement();
+		Element graphs = root.element("graphs");
+		Element graph = graphs.element("graph");
+		Element val = graph.element("value");
+		graph.clearContent();
+		for (int i = 0; i < 12; i++) {
+			graph.addElement("value").addAttribute("xid", "" + i)
+					.addText("" + nums[i]);
+		}
+
+		XMLWriter out = new XMLWriter(new FileWriter(path));
+		out.write(doc);
+		out.close();
+
+		Document document = DocumentHelper.createDocument();
+
+		return document.asXML();
+	}
+
 	public static void main(String[] args) throws DocumentException,
 			IOException {
 		File file = new File("d:/regex_Speed.txt");
 		List list = new ArrayList();
 		int[] nums = { 0 };
+
+		String path = GlobalConfig.getContextValue("amchartData.dir") + "/"
+				+ "amcolumn_data_rec.xml";
+
+		System.out.println(path);
 
 		File configFile = new File("d:/amcolumn_data1.xml");
 		SAXReader reader = new SAXReader();
@@ -369,9 +547,14 @@ public class SendpacketsModule {
 			BufferedReader bw = new BufferedReader(new FileReader(file));
 			String line = null;
 			while ((line = bw.readLine()) != null) {
-				list.add(line);
+				if (line.charAt(0) == '\r' || line.charAt(0) == '\n')
+					list.add("0");
+				else
+					list.add(line);
+
 			}
 			bw.close();
+			// System.out.println((list.get(list.size() - 2) == '\n'));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -382,7 +565,7 @@ public class SendpacketsModule {
 		// }
 
 		nums = new int[12];
-		for (int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size() && i < 12; i++) {
 			String s = (String) list.get(i);
 			nums[i] = Integer.parseInt(s);
 		}

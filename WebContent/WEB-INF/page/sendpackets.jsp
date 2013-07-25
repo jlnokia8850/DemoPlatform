@@ -246,7 +246,7 @@
 
 			swfPath : "${base}/amchart/amcolumn_1.6.0.1/amcolumn/amcolumn.swf",
 			setting_file : "${base}/common/amchart/stat/consumption_settings.xml",
-			data_file : "${base}/common/amchart/stat/amcolumn_data.xml",
+			//data_file : "${base}/common/amchart/stat/amcolumn_data.xml",
 			so : null,
 			init : function() {
 
@@ -254,10 +254,11 @@
 						"8", "#FFFFFF");
 				this.so.addVariable("path", "${base}/amchart/");
 				this.setting_file = "${base}/common/amchart/stat/consumption_settings.xml";
-				//data_file = this.getRegexResultDataFile();
+				data_file = this.getSendDataFile();
 
-				this.data_file = "${base}/common/amchart/stat/amcolumn_data.xml";
-
+				//this.data_file = "${base}/common/amchart/stat/amcolumn_data.xml";
+				this.data_file = data_file;
+				
 				this.so.addVariable("settings_file",
 						encodeURIComponent(this.setting_file));
 
@@ -265,20 +266,21 @@
 						encodeURIComponent(this.data_file));
 				//alert('aaaa');
 
-				//this.so.addVariable("preloader_color", "#999999");
+				this.so.addVariable("preloader_color", "#999999");
 				//this.so.addParam("wmode", "opaque");
 				this.so.write("amcharts_regex");
 
 			},
-			getRegexResultDataFile : function() {
-				//var s = Math.random().toString();
-				//var data_file = "${base}/platform/getAmchartsData?nocache=" + s;
-				//return data_file;
+			getSendDataFile : function() {
+				var s = Math.random().toString();
+				var data_file = "${base}/platform/getSendData?nocache=" + s;
+				//alert(data_file.toString());
+				return data_file;
 			},
 			reloadChart : function() {
-				//var data_file = this.getRegexResultDataFile();
-				//this.so.addVariable("data_file", encodeURIComponent(data_file));
-				//this.so.write("amcharts_regex");
+				var data_file = this.getSendDataFile();
+				this.so.addVariable("data_file", encodeURIComponent(data_file));
+				this.so.write("amcharts_regex");
 			}
 		};
 	</script>

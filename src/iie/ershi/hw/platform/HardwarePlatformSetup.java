@@ -29,5 +29,7 @@ public class HardwarePlatformSetup implements Setup{
 				+ "/WEB-INF/uploadTmp");
 		GlobalConfig.addContextValue("conf.dir", webdir
 				+ "/conf");
+		GlobalConfig.addContextValue("amchartData.dir", webdir
+				+ "/amchartData");
 	}
 }
