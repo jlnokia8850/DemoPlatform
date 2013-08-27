@@ -15,7 +15,7 @@
 		<value xid="11">此  时</value>
 	</series>
 	<graphs>
-		<graph gid="0" color="#9FCD95" gradient_fill_colors="#5599FF, #9FCD95">
+		<graph gid="0" color="#9FCD95" gradient_fill_colors="#EEC900, #EEE685">
 		<value xid="0">0</value>
 		<value xid="1">0</value>
 		<value xid="2">0</value>
@@ -40,7 +40,7 @@
       <text_color>#483D8B</text_color>  
       <text_size>20</text_size>    
       <text>                     
-        <![CDATA[<b>接收数据包数量</b>]]>
+        <![CDATA[<b>接收UDP数据包数量</b>]]>
       </text>        
     </label>
   </labels>	

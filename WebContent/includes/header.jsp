@@ -18,10 +18,10 @@
 				</p>
 				<div class=tabbable>
 					<ul class="nav">
-						<li class="active"><a href="${base}/platform/init"><b>发包演示</b></a></li>
-						<li><a href="${base}/platform/recpackets"><b>收包演示</b></a></li>
-						<li><a href="#"><b>阻断演示</b></a></li>
-						<li><a href="#"><b>分流演示</b></a></li>
+						<li class=""><a href="${base}/platform/init"><b>发包演示</b></a></li>
+						<li class=""><a href="${base}/platform/recpackets"><b>收包演示</b></a></li>
+						<li class=""><a href="${base}/platform/preventpackets"><b>阻断演示</b></a></li>
+						<li class=""><a href="${base}/platform/divpackets"><b>分流演示</b></a></li>
 					</ul>
 				</div>
 			</div>

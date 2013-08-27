@@ -16,7 +16,6 @@
 	</series>
 	<graphs>
 		<graph gid="0" color="#BEDF66" gradient_fill_colors="#FFFFFF,#BEDF66">
-			<value xid="0">11</value>
 			<value xid="0">1111</value>
 		    <value xid="1">22</value>
 			<value xid="2">33</value>

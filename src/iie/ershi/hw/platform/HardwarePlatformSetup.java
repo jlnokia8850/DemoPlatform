@@ -31,5 +31,7 @@ public class HardwarePlatformSetup implements Setup{
 				+ "/conf");
 		GlobalConfig.addContextValue("amchartData.dir", webdir
 				+ "/amchartData");
+		GlobalConfig.addContextValue("sendData.dir", webdir
+				+ "/sendData");
 	}
 }
